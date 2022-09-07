@@ -1,5 +1,6 @@
 from boto3 import client, resource
 from botocore.exceptions import ClientError
+from dotenv import load_dotenv
 from os import getenv
 
 import logging
@@ -9,9 +10,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
+# load env vars
+load_dotenv()
 AWS_ACCESS_KEY_ID = getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = getenv("AWS_SECRET_ACCESS_KEY")
 REGION_NAME = getenv("REGION_NAME")
+print(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, REGION_NAME)
 
 aws_client = client(
     'dynamodb',

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from database import create_user, delete_user, get_user, get_users, update_user
+from database.db import create_user, delete_user, get_user, get_users, update_user
 from models.user import User
 
 routes_user = APIRouter()
