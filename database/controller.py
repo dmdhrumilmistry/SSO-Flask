@@ -7,14 +7,14 @@ load_dotenv()
 AWS_ACCESS_KEY_ID = getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = getenv('AWS_SECRET_ACCESS_KEY')
 AWS_REGION_NAME = getenv('AWS_REGION_NAME')
-print(AWS_ACCESS_KEY_ID, AWS_REGION_NAME, AWS_SECRET_ACCESS_KEY)
 
 resource = resource(
-   'dynamodb',
-   aws_access_key_id=AWS_ACCESS_KEY_ID,
-   aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-   region_name=AWS_REGION_NAME
+    'dynamodb',
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION_NAME
 )
+
 
 def create_table():
     table = resource.create_table(
@@ -28,7 +28,7 @@ def create_table():
         AttributeDefinitions=[
             {
                 'AttributeName': 'id',  # Name of the attribute
-                'AttributeType': 'N'   # N = Number (B= Binary, S = String)
+                'AttributeType': 'S'   # N = Number (B= Binary, S = String)
             }
         ],
         ProvisionedThroughput={
@@ -36,5 +36,5 @@ def create_table():
             'WriteCapacityUnits': 10
         }
     )
-
+    table.wait_until_exists()
     return table

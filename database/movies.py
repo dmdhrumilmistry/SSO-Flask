@@ -1,13 +1,15 @@
+from urllib import response
 from database.controller import resource
-from uuid import uuid5
+from uuid import uuid4
 
 MovieTable = resource.Table('Movie')
+
 
 def write_to_movie(title, director):
     # write
     response = MovieTable.put_item(
         Item={
-            'id': str(uuid5),
+            'id': str(uuid4()),
             'title': title,
             'director': director,
             'upvotes': 0
@@ -82,3 +84,12 @@ def delete_from_movie(id):
     )
 
     return response
+
+
+def get_all_movies():
+    response = MovieTable.scan(
+        Limit=5,
+        AttributesToGet=["username", "id"]
+    )
+    
+    return response.get("Items", None)

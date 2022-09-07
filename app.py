@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request, jsonify
 import database.controller as db
 import database.movies as movies_db
@@ -16,16 +17,16 @@ def init_app():
 
 @app.route('/')
 def root_route():
-    return 'Table created'
+    return jsonify({'message':'Flask-SSO'})
 
 
 @app.route('/movie', methods=['POST'])
 def add_movie():
-    data = request.get_json()
-    response = movies_db.write_to_movie(data['title'], data['director'])
+    movie = request.get_json()
+    response = movies_db.write_to_movie(movie['title'], movie['director'])
     if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
         return {
-            'msg': 'Add Movie successful',
+            'message': 'ok',
         }
     return {
         'msg': 'error occurred',
@@ -44,6 +45,11 @@ def get_movie(id):
         'msg': 'error occurred',
         'response': response
     }
+
+
+@app.route('/movie/all', methods=['GET'])
+def get_all_movies():
+    return jsonify(movies_db.get_all_movies())
 
 
 @app.route('/movie/', methods=['DELETE'])
