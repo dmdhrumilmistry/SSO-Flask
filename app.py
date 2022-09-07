@@ -1,8 +1,95 @@
-from distutils.dir_util import create_tree
-from fastapi import FastAPI
-from database.dynamodb_handler import create_tables
-from routes.user import routes_user
+from flask import Flask, request, jsonify
+import database.controller as db
+import database.movies as movies_db
 
-app = FastAPI()
+app = Flask(__name__)
 
-app.include_router(routes_user, prefix='/user')
+@app.before_first_request
+def init_app():
+    try:
+        db.create_table()
+    except Exception as e:
+        if e.__class__.__name__ == 'ResourceInUseException':
+            pass
+        else: raise
+
+
+@app.route('/')
+def root_route():
+    return 'Table created'
+
+
+@app.route('/movie', methods=['POST'])
+def add_movie():
+    data = request.get_json()
+    response = movies_db.write_to_movie(data['title'], data['director'])
+    if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
+        return {
+            'msg': 'Add Movie successful',
+        }
+    return {
+        'msg': 'error occurred',
+        'response': response
+    }
+
+
+@app.route('/movie/{str:id}', methods=['GET'])
+def get_movie(id):
+    response = movies_db.read_from_movie(id)
+    if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
+        if ('Item' in response):
+            return {'Item': response['Item']}
+        return {'msg': 'Item not found!'}
+    return {
+        'msg': 'error occurred',
+        'response': response
+    }
+
+
+@app.route('/movie/', methods=['DELETE'])
+def delete_movie(id):
+    response = movies_db.delete_from_movie(id)
+    if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
+        return {
+            'msg': 'Delete successful',
+        }
+    return {
+        'msg': 'error occurred',
+        'response': response
+    }
+
+
+@app.route('/movie/', methods=['PUT'])
+def update_movie(id):
+
+    data = request.get_json()
+    response = movies_db.update_in_movie(id, data)
+    if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
+        return {
+            'msg': 'update successful',
+            'response': response['ResponseMetadata'],
+            'ModifiedAttributes': response['Attributes']
+        }
+    return {
+        'msg': 'error occurred',
+        'response': response
+    }
+
+
+@app.route('/upvote/movie/', methods=['POST'])
+def upvote_movie(id):
+    response = movies_db.upvote_a_movieMovie(id)
+    if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
+        return {
+            'msg': 'Upvote successful',
+            'response': response['ResponseMetadata'],
+            'Upvotes': response['Attributes']['upvotes']
+        }
+    return {
+        'msg': 'error occurred',
+        'response': response
+    }
+
+
+if __name__ == '__main__':
+    app.run(host='localhost', port=5000, debug=True)
