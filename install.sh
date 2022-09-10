@@ -15,25 +15,24 @@ cd $HOME/SSO-Flask
 python3 -m pip install -r requirements.txt
 
 # ask for AWS creds and store it into .env file
-touch .env
 echo -e "[*] Enter AWS Credentials\n"
 
 echo -e "[+] AWS_ACCESS_KEY_ID: "
 read AWS_ACCESS_KEY_ID
-echo -e 'AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"' >> .env
+export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 
 
 echo -e "[+] AWS_SECRET_ACCESS_KEY: "
 read AWS_SECRET_ACCESS_KEY
-echo -e 'AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"' >> .env
+export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 
 echo -e "[+] AWS_REGION_NAME: "
 read AWS_REGION_NAME
-echo -e 'AWS_REGION_NAME="${AWS_REGION_NAME}"' >> .env
+export AWS_REGION_NAME=$AWS_REGION_NAME
 
 # add local bin to path
 echo -e "[*] Setting Path\n\n" 
 export PATH=$HOME/.local/bin:$PATH:
 
 # start project
-waitress-serve --listen=*:80 app:app
+waitress-serve --listen=*:5000 app:app

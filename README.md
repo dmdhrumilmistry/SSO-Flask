@@ -77,7 +77,7 @@ A python application written using Flask to reduce creating passwords on several
 - Start waitress server
 
   ```bash
-  waitress-serve --listen=*:80 app:app
+  waitress-serve --listen=*:5000 app:app
   ```
 
-  > Allow HTTP traffic on port 80 for EC2 instance
+  > Allow HTTP traffic on port 5000 for EC2 instance
