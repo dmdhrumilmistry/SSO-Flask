@@ -58,6 +58,21 @@ def add_web_token(id: str, domain: str, web_token: str) -> bool:
 
     return {'msg': 'token failed to be added'}
 
+def get_web_token_status(id:str, domain:str, token:str):
+    auth_tokens = users_table.get_item(
+        Key={
+            'id': id
+        },
+        AttributesToGet=[
+            'authTokens',
+        ],
+    ).get('Item',dict()).get('authTokens',dict())
+
+    status = False
+    if auth_tokens.get(domain, None) == token:
+        status = True
+    
+    return status
 
 def delete_web_token(id: str, domain: str):
     response = users_table.update_item(
