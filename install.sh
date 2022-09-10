@@ -20,15 +20,16 @@ echo -e "[*] Enter AWS Credentials\n"
 
 echo -e "[+] AWS_ACCESS_KEY_ID: "
 read AWS_ACCESS_KEY_ID
-echo $AWS_ACCESS_KEY_ID >> .env
+echo -e 'AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"' >> .env
+
 
 echo -e "[+] AWS_SECRET_ACCESS_KEY: "
 read AWS_SECRET_ACCESS_KEY
-echo $AWS_SECRET_ACCESS_KEY >> .env
+echo -e 'AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"' >> .env
 
 echo -e "[+] AWS_REGION_NAME: "
 read AWS_REGION_NAME
-echo $AWS_REGION_NAME >> .env
+echo -e 'AWS_REGION_NAME="${AWS_REGION_NAME}"' >> .env
 
 # add local bin to path
 echo -e "[*] Setting Path\n\n" 
