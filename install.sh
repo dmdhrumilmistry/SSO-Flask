@@ -12,5 +12,8 @@ git clone --depth=1 https://github.com/dmdhrumilmistry/SSO-Flask.git
 cd $HOME/SSO-Flask
 python3 -m pip install -r requirements.txt
 
+# add local bin to path
+export PATH=$HOME/.local/bin:$PATH:
+
 # start project
 waitress-serve --listen=*:80 app:app

@@ -28,6 +28,22 @@ A python application written using Flask to reduce creating passwords on several
 
 ## Installation and Usage
 
+### For Debian based OSes
+
+- Install curl
+
+  ```bash
+  sudo apt install curl -y
+  ```
+
+- Use `install.sh` script from repo
+
+  ```bash
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/dmdhrumilmistry/SSO-Flask/main/install.sh)"
+  ```
+
+### Manual Method
+
 - Clone/Download repo
 
   ```bash
