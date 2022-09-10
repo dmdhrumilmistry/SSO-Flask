@@ -34,8 +34,11 @@ def add_movie():
     }
 
 
-@app.route('/movie/{str:id}', methods=['GET'])
+@app.route('/movie/<id>', methods=['GET'])
 def get_movie(id):
+    # sanitize id
+    id = str(id)
+
     response = movies_db.read_from_movie(id)
     if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
         if ('Item' in response):
@@ -52,7 +55,7 @@ def get_all_movies():
     return jsonify(movies_db.get_all_movies())
 
 
-@app.route('/movie/', methods=['DELETE'])
+@app.route('/movie/<id>', methods=['DELETE'])
 def delete_movie(id):
     response = movies_db.delete_from_movie(id)
     if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
@@ -65,7 +68,7 @@ def delete_movie(id):
     }
 
 
-@app.route('/movie/', methods=['PUT'])
+@app.route('/movie/<id>', methods=['PUT'])
 def update_movie(id):
 
     data = request.get_json()
@@ -73,8 +76,8 @@ def update_movie(id):
     if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
         return {
             'msg': 'update successful',
-            'response': response['ResponseMetadata'],
-            'ModifiedAttributes': response['Attributes']
+            # 'response': response['ResponseMetadata'],
+            # 'ModifiedAttributes': response['Attributes']
         }
     return {
         'msg': 'error occurred',
@@ -82,14 +85,14 @@ def update_movie(id):
     }
 
 
-@app.route('/upvote/movie/', methods=['POST'])
+@app.route('/movie/<id>/upvote', methods=['GET'])
 def upvote_movie(id):
-    response = movies_db.upvote_a_movieMovie(id)
+    response = movies_db.upvote_a_movie(id)
     if (response['ResponseMetadata']['HTTPStatusCode'] == 200):
         return {
             'msg': 'Upvote successful',
-            'response': response['ResponseMetadata'],
-            'Upvotes': response['Attributes']['upvotes']
+            # 'response': response['ResponseMetadata'],
+            # 'Upvotes': response['Attributes']['upvotes']
         }
     return {
         'msg': 'error occurred',

@@ -8,6 +8,7 @@ AWS_ACCESS_KEY_ID = getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = getenv('AWS_SECRET_ACCESS_KEY')
 AWS_REGION_NAME = getenv('AWS_REGION_NAME')
 
+
 resource = resource(
     'dynamodb',
     aws_access_key_id=AWS_ACCESS_KEY_ID,

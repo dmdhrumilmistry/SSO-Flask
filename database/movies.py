@@ -1,4 +1,3 @@
-from urllib import response
 from database.controller import resource
 from uuid import uuid4
 
@@ -89,7 +88,7 @@ def delete_from_movie(id):
 def get_all_movies():
     response = MovieTable.scan(
         Limit=5,
-        AttributesToGet=["username", "id"]
+        AttributesToGet=["title", "id"]
     )
     
     return response.get("Items", None)
