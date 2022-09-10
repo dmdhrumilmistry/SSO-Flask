@@ -17,9 +17,9 @@ resource = resource(
 )
 
 
-def create_table():
+def create_table(table_name:str='Users'):
     table = resource.create_table(
-        TableName='Movie',  # Name of the table
+        TableName=table_name,  # Name of the table
         KeySchema=[
             {
                 'AttributeName': 'id',
