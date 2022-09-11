@@ -2,12 +2,16 @@
 
 A python application written using Flask to reduce creating passwords on several websites for logging in
 
+![SSO-Flask-Arch](.images/SSO-Flask-Arch.png)
+
 ## How websites can use it
 
 - Ask user to Sign Up/Login using the hosted API
 - Generate token for website domain
 - Use generated token to authenticate user for accessing website
 - Release generated token for the domain
+
+![Usage](.images/SSO-Flask.png)
 
 ## API endpoints
 
